@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Collection Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <h1><i class="fas fa-film text-danger"></i> Anime Collection Manager</h1>
+            <div class="main-buttons">
+                <button id="infoBtn" class="btn-secondary" title="Про сайт"><i class="fas fa-info-circle"></i></button>
+                <button id="addFolderBtn" class="btn-secondary"><i class="fas fa-folder-plus"></i> Папка</button>
+                <button id="openModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Додати</button>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-value" id="totalCount">0</span>
+                <span class="stat-label">Усього</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value status-Переглянуто" id="watchedCount">0</span>
+                <span class="stat-label">Переглянуто</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value status-Дивлюсь" id="watchingCount">0</span>
+                <span class="stat-label">Дивлюсь</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value status-У-планах" id="planCount">0</span>
+                <span class="stat-label">У планах</span>
+            </div>
+        </div>
+
+        <div id="folderNav" class="folder-navigation" style="display: none; margin-bottom: 15px;">
+            <button id="backBtn" class="btn-secondary"><i class="fas fa-arrow-left"></i> Назад до папок</button>
+            <h2 id="currentFolderName" style="margin-top: 10px;"></h2>
+        </div>
+
+        <div class="header-bar">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Пошук тайтлу...">
+            </div>
+            
+            <div class="filter-sort-controls">
+                <div class="select-wrapper">
+                    <select id="sortInput">
+                        <option value="newest">Спочатку нові</option>
+                        <option value="rating">Найвищий рейтинг</option>
+                        <option value="alphabet">А-Я (алфавіт)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="data-controls">
+                <button onclick="location.reload();" id="updateBtn" class="btn-secondary" title="Оновити список">
+                    <i class="fas fa-sync-alt fa-spin-hover"></i>
+                </button>
+                <button id="exportBtn" class="btn-secondary" title="Експорт у файл"><i class="fas fa-file-export"></i></button>
+                <button id="importBtn" class="btn-secondary" title="Імпорт з файлу"><i class="fas fa-file-import"></i></button>
+                <button id="clearAllBtn" class="btn-danger-outline" title="Очистити все"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            
+            <input type="file" id="fileInput" style="display: none;" accept=".txt">
+        </div>
+    </header>
+
+    <main>
+        <div id="collectionGrid" class="grid"></div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content glass">
+            <input type="hidden" id="editIndex" value="-1">
+            <div class="modal-header">
+                <h2 id="modalTitle">Новий запис</h2>
+                <button id="closeModalBtn" class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="form-group">
+                <label>Назва тайтлу:</label>
+                <input type="text" id="titleInput" placeholder="Наприклад: Назва аніме">
+            </div>
+
+            <div class="form-group">
+                <label>Папка:</label>
+                <select id="folderSelect">
+                    <option value="">Без папки (Головна)</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Жанр / Тип:</label>
+                    <select id="typeInput">
+                        <option value="Сенен">Сенен</option>
+                        <option value="Сейнен">Сейнен</option>
+                        <option value="Шьодзьо">Шьодзьо</option>
+                        <option value="Дзьосей">Дзьосей</option>
+                        <option value="Кодомо">Кодомо</option>
+
+                        <option value="Екшн">Екшн</option>
+                        <option value="Пригоди">Пригоди</option>
+                        <option value="Комедія">Комедія</option>
+                        <option value="Фентезі">Фентезі</option>
+                        <option value="Драма">Драма</option>
+                        <option value="Романтика">Романтика</option>
+                        <option value="Повсякденність">Повсякденність</option>
+                        <option value="Містика">Містика</option>
+                        <option value="Жахи">Жахи</option>
+                        <option value="Психологія">Психологія</option>
+                        <option value="Трилер">Трилер</option>
+                        <option value="Фантастика">Фантастика</option>
+
+                        <option value="Ісекай">Ісекай</option>
+                        <option value="Меха">Меха</option>
+                        <option value="Спорт">Спорт</option>
+                        <option value="Детектив">Детектив</option>
+                        <option value="Музика">Музика</option>
+                        <option value="Кіберпанк">Кіберпанк</option>
+                        <option value="Постапокаліпсис">Постапокаліпсис</option>
+                        <option value="Історичний">Історичний</option>
+                        <option value="Надприродне">Надприродне</option>
+                        <option value="Бойові мистецтва">Бойові мистецтва</option>
+                        <option value="Гарем">Гарем</option>
+                        <option value="Еччі">Еччі</option>
+                        <option value="Школа">Школа</option>
+                        <option value="Військове">Військове</option>
+                        <option value="Магічна дівчинка">Магічна дівчинка</option>
+                        <option value="Пародія">Пародія</option>
+                        <option value="Манґа">Манґа</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label>Твій статус:</label>
+                    <select id="statusInput">
+                        <option value="Переглянуто">Переглянуто</option>
+                        <option value="Дивлюсь">Дивлюсь</option>
+                        <option value="У планах">У планах</option>
+                        <option value="Кинуто">Кинуто</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Твоя оцінка (1-10):</label>
+                <input type="number" id="ratingInput" min="1" max="10" value="10">
+            </div>
+            
+            <div class="form-group">
+                <label>Коментар (за бажанням):</label>
+                <textarea id="commentInput" placeholder="Що тобі запам'яталося?"></textarea>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="saveBtn" class="btn-primary btn-full">Зберегти</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2><i class="fas fa-rocket"></i> Що вміє цей менеджер?</h2>
+                <button id="closeInfoBtn" class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="info-body"> 
+                <p><i class="fas fa-code-branch text-primary"></i> <strong>Версія:</strong> 0.1 <br><a href="#">GitHub Project</a></p>
+                <hr class="info-divider">
+                <ul class="info-list">
+                    <li><i class="fas fa-database"></i> <span><strong>Локальне зберігання:</strong> Твої дані зберігаються тільки у твоєму браузері. Ніяких серверів чи реєстрацій.</span></li>
+                    <li><i class="fas fa-check text-success"></i> <span><strong>Списки:</strong> Керуй статусами (Дивлюсь, Переглянуто тощо).</span></li>
+                    <li><i class="fas fa-folder text-plan"></i> <span><strong>Папки:</strong> Групуй аніме за категоріями.</span></li>
+                    <li><i class="fas fa-sort text-sort"></i> <span><strong>Фільтри:</strong> Сортуй за рейтингом або алфавітом.</span></li>
+                    <li><i class="fas fa-file-export"></i> <span><strong>Бекап:</strong> Експортуй список у .txt файл.</span></li>
+                </ul>
+            </div>
+            <button id="closeInfoOk" class="btn-primary btn-full" style="margin-top: 15px;">Зрозуміло!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

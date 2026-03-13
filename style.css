@@ -1,0 +1,231 @@
+/* --- Глобальні змінні --- */
+:root {
+    --bg-color: #121418;
+    --card-bg: #1e2229;
+    --text-primary: #e6e8ec;
+    --text-secondary: #a1a7b3;
+    --accent-primary: #e50914;
+    --accent-secondary: #2ecc71;
+    --accent-sort: #f1c40f;
+    --accent-plan: #3498db;
+    --accent-dropped: #e74c3c;
+    --border-color: #2a2f3a;
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+    --transition-fast: 0.2s ease;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-primary); padding: 20px; line-height: 1.5; }
+a {
+    text-decoration: none;
+    color: white;
+}
+/* --- Статистика --- */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-value { font-size: 1.5rem; font-weight: 600; }
+.stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+/* --- Хедер та панель управління --- */
+header { margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+h1 { font-size: 1.5rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+h1 .text-danger { color: var(--accent-primary); }
+
+.header-bar { 
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; 
+    background-color: var(--card-bg); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border-color);
+}
+
+.search-box { position: relative; flex-grow: 1; max-width: 300px; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+.search-box input { 
+    padding: 10px 10px 10px 40px; background: transparent; border: 1px solid var(--border-color); 
+    border-radius: 20px; color: var(--text-primary); width: 100%; transition: var(--transition-fast);
+}
+.search-box input:focus { border-color: var(--accent-primary); outline: none; }
+
+select { 
+    appearance: none; padding: 10px 30px 10px 15px; background-color: #2a2f3a; 
+    border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 20px; cursor: pointer;
+}
+
+.data-controls { display: flex; gap: 8px; }
+
+/* --- Кнопки --- */
+button { border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: var(--transition-fast); }
+.btn-primary { background-color: var(--accent-primary); color: white; }
+.btn-secondary { background-color: #2a2f3a; color: var(--text-primary); }
+.btn-danger-outline { background-color: transparent; color: var(--accent-dropped); border: 1px solid var(--accent-dropped); }
+.btn-danger-outline:hover { background-color: var(--accent-dropped); color: white; }
+
+/* --- Картки --- */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.card { background-color: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); position: relative; transition: var(--transition-fast); }
+.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.card-meta { display: flex; justify-content: space-between; margin-bottom: 12px; }
+.type-tag { font-size: 0.7rem; padding: 4px 12px; border-radius: 15px; background: #2a2f3a; color: var(--text-secondary); }
+.status-badge { font-size: 0.75rem; font-weight: 600; }
+
+.status-Переглянуто { color: var(--accent-secondary); }
+.status-Дивлюсь { color: var(--accent-sort); }
+.status-У-планах { color: var(--accent-plan); }
+.status-Кинуто { color: var(--accent-dropped); }
+
+.comment { font-style: italic; color: #b0b6c1; background: #242831; padding: 12px; border-radius: 8px; margin: 10px 0; border-left: 2px solid var(--accent-primary); }
+.card-actions { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border-color); padding-top: 15px; }
+
+/* --- Модалка --- */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 100; }
+.modal.open { display: flex; }
+.modal-content { background: #1e2229; padding: 30px; border-radius: 20px; width: 90%; max-width: 480px; display: flex; flex-direction: column; gap: 15px; border: 1px solid rgba(255,255,255,0.1); }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group input, .form-group select, .form-group textarea { padding: 12px; background: #2a2f3a; border: 1px solid var(--border-color); border-radius: 10px; color: white; }
+/* Додай ці стилі до свого файлу style.css */
+
+.main-buttons { display: flex; gap: 10px; }
+
+.folder-card {
+    background: linear-gradient(145deg, #232831, #1e2229);
+    border: 2px dashed var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.folder-card:hover {
+    border-color: var(--accent-plan);
+    transform: translateY(-5px);
+}
+
+.folder-card i { color: var(--accent-plan); }
+.folder-card h3 { margin: 0; font-size: 1.2rem; }
+.folder-count { color: var(--text-secondary); font-size: 0.8rem; }
+
+.folder-navigation {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-plan);
+}
+
+.btn-full { width: 100%; justify-content: center; }
+.flex-1 { flex: 1; }
+.form-row { display: flex; gap: 10px; }
+
+/* --- Додаткові стилі для модальних вікон та форми --- */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.modal-footer {
+    margin-top: 10px;
+}
+
+.close-modal {
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: var(--accent-primary);
+}
+
+/* --- Стилі для вікна ІНФО --- */
+.info-body {
+    line-height: 1.6;
+}
+
+.info-divider {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-list i {
+    width: 20px;
+    text-align: center;
+}
+
+/* --- Допоміжні класи кольорів --- */
+.text-success { color: var(--accent-secondary); }
+.text-plan { color: var(--accent-plan); }
+.text-sort { color: var(--accent-sort); }
+
+/* --- Ефекти скла (Glassmorphism) --- */
+.glass {
+    background: rgba(30, 34, 41, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Адаптивність для мобільних пристроїв --- */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .header-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        max-width: none;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
